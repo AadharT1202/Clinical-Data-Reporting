@@ -7,7 +7,8 @@ class Patient(models.Model):
     age = models.IntegerField()
 
 class ClinicalData(models.Model):
-    componentName = models.CharField(max_length=30)
+    COMPONENT_NAME = [('hw','Height/Weight'),('bp','Blood Pressure'),('heartrate','Heart Rate')]
+    componentName = models.CharField(choices = COMPONENT_NAME ,max_length=30)
     componentValue = models.CharField(max_length=30)
-    measuredDateTime = models.DateTimeField()
+    measuredDateTime = models.DateTimeField(auto_now_add = True)
     patient = models.ForeignKey(Patient,on_delete=models.CASCADE)
