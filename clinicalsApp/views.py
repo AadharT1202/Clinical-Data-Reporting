@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from clinicalsApp.models import Patient, ClinicalData
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
+from clinicalsApp.forms import ClinicalDataForm
 # Create your views here.
 
 class PatientListView(ListView):
@@ -20,3 +21,13 @@ class PatientUpdateView(UpdateView):
 class PatientDeleteView(DeleteView):
     model = Patient
     success_url = reverse_lazy('index')
+
+def addData(request,**kwargs):
+    form = ClinicalDataForm()
+    patient = Patient.objects.get(id = kwargs['pk'])
+    if request.method == 'POST':
+        form = ClinicalDataForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('/')
+    return render(request,'clinicalsApp/clinicaldata_form.html',{'form':form, 'patient':patient})
