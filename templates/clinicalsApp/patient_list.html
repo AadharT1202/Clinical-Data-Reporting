@@ -21,8 +21,11 @@
             <td>{{patient.firstName}}</td>
             <td>{{patient.lastName}}</td>
             <td>{{patient.age}}</td>
+            <td><a href="/update/{{patient.id}}">Update</a></td>
         </tr>
         {% endfor %}
     </table>
+    <br>
+    <a href="create/">Add Patient</a>
 </body>
 </html>

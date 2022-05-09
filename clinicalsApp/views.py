@@ -9,7 +9,7 @@ class PatientListView(ListView):
 
 class PatientCreateView(CreateView):
     model = Patient
-    success_url = reverse_lazy('index')
+    #success_url = reverse_lazy('index')
     fields = ('firstName','lastName','age')
 
 class PatientUpdateView(UpdateView):
