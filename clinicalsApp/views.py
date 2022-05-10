@@ -31,3 +31,22 @@ def addData(request,**kwargs):
             form.save()
             return redirect('/')
     return render(request,'clinicalsApp/clinicaldata_form.html',{'form':form, 'patient':patient})
+
+def analyze(request, **kwargs):
+    data = ClinicalData.objects.filter(patient_id = kwargs['pk'])
+    responseData = []
+    for eachEntry in data:
+        print(eachEntry.componentName)
+        if eachEntry.componentName == 'hw':
+            heightAndWeight = eachEntry.componentValue.split('/')
+            print(heightAndWeight)
+            if len(heightAndWeight) > 1:
+                feetToMeters = float(heightAndWeight[0]) * 0.4536
+                BMI = (float(heightAndWeight[1]))/(feetToMeters*feetToMeters)
+                print(BMI)
+                bmiEntry = ClinicalData()
+                bmiEntry.componentName = 'BMI'
+                bmiEntry.componentValue = BMI
+                responseData.append(bmiEntry)
+        responseData.append(eachEntry)
+    return render(request,'clinicalsApp/generateReport.html',{'data':responseData}) 
